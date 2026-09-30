@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="price-data-url" content="./prices.json">
+<title>航线手记 · 香港快运价格监控</title>
+<style>
+:root{--bg:#f4f5f9;--ink:#242139;--muted:#76758a;--purple:#7544d4;--green:#137965;--line:#e9e7ef}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.65 system-ui,"Microsoft YaHei",sans-serif}header{background:#fff;border-bottom:1px solid var(--line);padding:20px max(24px,calc((100vw - 1180px)/2));display:flex;align-items:center;justify-content:space-between}.brand{font-weight:750;font-size:20px;letter-spacing:1px}.logo{display:inline-grid;place-items:center;background:var(--purple);color:white;width:35px;height:35px;border-radius:10px;margin-right:12px}.badge{font-size:12px;padding:5px 12px;border-radius:20px;background:#f0ebfa;color:var(--purple)}main{max-width:1228px;margin:auto;padding:38px 24px}h1{font-size:32px;letter-spacing:-1px;line-height:1.3;margin:6px 0 12px}p{margin:6px 0}.muted{color:var(--muted)}.intro{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}.eyebrow{color:var(--purple);font-size:11px;font-weight:700;letter-spacing:2px}.route{border:1px solid var(--line);border-radius:12px;padding:12px 18px;background:#fff;font-size:12px}.cards{display:grid;grid-template-columns:1.3fr 1fr 1fr 1fr;gap:16px;margin:20px 0}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:23px}.card.primary{background:#302044;color:white;border-color:#302044}.card.primary .muted{color:#c6b9da}.value{font-size:30px;font-weight:750;letter-spacing:-1px;margin:8px 0}.small{font-size:12px}.status{background:#fff4d9;color:#806119;border:1px solid #f0deaf;padding:12px 17px;border-radius:10px;margin:18px 0}.panel{background:#fff;border:1px solid var(--line);border-radius:17px;padding:24px;margin-top:22px}.panel-head{display:flex;justify-content:space-between;gap:16px;align-items:center}h2{font-size:18px;margin:0}.controls{display:flex;gap:8px;flex-wrap:wrap}button,select{border:1px solid var(--line);background:#fff;border-radius:8px;color:var(--ink);padding:8px 12px;font:inherit;cursor:pointer}button:hover{border-color:var(--purple);color:var(--purple)}.legend{display:flex;gap:20px;margin:17px 0;font-size:12px;color:var(--muted);flex-wrap:wrap}.dot{width:8px;height:8px;display:inline-block;border-radius:50%;background:var(--purple);margin-right:7px}.chart-wrap{overflow-x:auto}svg{display:block;width:100%;height:320px}svg text{font-family:system-ui,"Microsoft YaHei",sans-serif;font-size:11px;fill:#898599}.tip{min-height:28px;color:var(--purple);font-size:12px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;text-align:left;white-space:nowrap;font-size:13px}th{font-size:11px;font-weight:500;color:var(--muted);padding:16px 12px;background:#faf9fc}td{padding:15px 12px;border-bottom:1px solid var(--line)}td:nth-child(4){font-weight:700}.good{color:var(--green)}.bad{color:#a1691a}.daily-min{font-weight:750;color:var(--purple)}.daily-change{font-weight:600}.daily-change.down{color:var(--green)}.daily-change.up{color:#a1691a}.daily-note{font-size:12px;color:var(--muted)}details.panel{padding:0}details.panel summary{list-style:none;cursor:pointer;padding:22px 24px;font-size:18px;font-weight:700;display:flex;justify-content:space-between;align-items:center}details.panel summary::-webkit-details-marker{display:none}details.panel summary:after{content:'⌄';font-size:22px;color:var(--muted);font-weight:400}details.panel[open] summary:after{content:'⌃'}details.panel .table-wrap{padding:0 24px 20px}footer{padding:22px 4px;font-size:12px;color:var(--muted)}a{color:var(--purple)}.empty{padding:50px;text-align:center;color:var(--muted)}@media(max-width:800px){.cards{grid-template-columns:1fr 1fr}.intro{display:block}.route{margin-top:16px}.panel{padding:16px}details.panel summary{padding:16px}details.panel .table-wrap{padding:0 16px 16px}h1{font-size:26px}.panel-head{align-items:flex-start;flex-direction:column}.value{font-size:25px}header{padding:16px 24px}main{padding-top:24px}}@media(max-width:420px){.cards{gap:8px}.card{padding:14px}.badge{font-size:10px}}
+</style>
+<style>
+.daily-chart-wrap{overflow-x:auto;margin:14px 0 10px;border-bottom:1px solid var(--line)}
+#daily-chart{height:270px}
+.mode-switch{display:flex;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.mode-switch button{border:0;border-radius:0;padding:7px 12px;font-size:12px}
+.mode-switch button+button{border-left:1px solid var(--line)}
+.mode-switch button[aria-pressed="true"]{background:#efe8fb;color:var(--purple);font-weight:700}
+</style>
+</head>
+<body>
+<header><div class="brand"><span class="logo">✈</span>航线手记</div><span class="badge">HK EXPRESS / 价格监控</span></header>
+<main>
+<div class="intro"><div><div class="eyebrow">HONG KONG ⇄ BANGKOK</div><h1>等一个好价格，再出发。</h1><p class="muted">指定航班 · 两程轻便飞 · 含强制税费 · 每 3 小时检查</p></div><div class="route">去程　01/16 · UO704　07:50 HKG → 09:55 BKK<br>回程　01/18 · UO735　00:35 BKK → 04:30 HKG<br><span class="muted">2027 年 · 1 位成人 · 不含可选 Extras</span></div></div>
+<div id="status" class="status" role="status">正在读取本地价格记录…</div>
+<div class="cards">
+<section class="card primary"><div class="muted small">最近往返参考价</div><div class="value" id="total">—</div><div class="small" id="native">等待有效报价</div></section>
+<section class="card"><div class="muted small">去程 · UO704</div><div class="value" id="outbound">—</div><div class="muted small">香港 HKG → 曼谷 BKK</div></section>
+<section class="card"><div class="muted small">回程 · UO735</div><div class="value" id="inbound">—</div><div class="muted small">曼谷 BKK → 香港 HKG</div></section>
+<section class="card"><div class="muted small">降价提醒线</div><div class="value">¥1,530</div><div class="small" id="difference">等待有效报价</div></section>
+</div>
+<section class="panel"><div class="panel-head"><div><h2>价格走势</h2><p class="muted small">人民币参考价 / 时间为北京时间，每 3 小时一个数据点</p></div><div class="controls"><select id="range" aria-label="查看时间范围"><option value="24">最近 24 小时</option><option value="168" selected>最近 7 天</option><option value="all">全部记录</option></select><select id="series" aria-label="价格类型"><option value="total">往返合计</option><option value="outbound">去程价格</option><option value="inbound">回程价格</option></select><button id="refresh">刷新数据 ↻</button></div></div><div class="legend"><span><i class="dot"></i>实际观测</span><span><i class="dot" style="background:#cf9365"></i>¥1530 提醒线（往返）</span><span>缺失 / 失败时段不连线</span></div><div class="chart-wrap"><svg id="chart" role="img" aria-label="每三小时的机票参考价格走势"></svg></div><div id="tip" class="tip">悬停或轻触数据点，查看实际检查时间与价格。</div></section>
+<section class="panel"><div class="panel-head"><div><h2>每日价格走势</h2><p class="muted small">横轴每天一格，纵轴为往返人民币参考价</p></div><div class="controls"><div class="mode-switch" role="group" aria-label="每日价格口径"><button type="button" data-day-mode="min" aria-pressed="true">每日最低</button><button type="button" data-day-mode="last" aria-pressed="false">当日最后</button></div><select id="daily-range" aria-label="每日价格范围"><option value="7" selected>最近 7 天</option><option value="all">全部日期</option></select></div></div><div class="daily-chart-wrap"><svg id="daily-chart" role="img" aria-label="每日往返参考价格走势"></svg></div><div id="daily-tip" class="tip">悬停或轻触数据点，查看当天报价。</div><div class="table-wrap"><table><thead><tr><th>日期</th><th>最低往返 / RMB</th><th>最后报价 / RMB</th><th>较前日收盘</th><th>有效记录</th><th>港币收盘</th></tr></thead><tbody id="daily-rows"></tbody></table></div><p class="daily-note">每日最低为当天已记录的最低价；记录不足时不推测未检查时段。</p></section>
+<details class="panel" id="detail-panel"><summary>每 3 小时明细 <span id="count" class="muted small"></span></summary><div class="table-wrap"><table><thead><tr><th>记录时间（北京时间）</th><th>去程 / RMB</th><th>回程 / RMB</th><th>往返 / RMB</th><th>港币合计</th><th>状态</th><th>来源</th></tr></thead><tbody id="rows"></tbody></table></div></details>
+<footer><p id="fx">人民币金额为参考换算，不代表保证扣款金额。</p><p id="refresh-note">网页每 5 秒读取本地记录；票价按原定每 3 小时检查。自动检查需要电脑保持开机联网。</p><p>价格提醒按监控程序当前规则通过 WxPusher 发送。 <a href="https://mybooking.hkexpress.com/en" target="_blank" rel="noopener">前往香港快运购票 ↗</a></p></footer>
+</main>
+<script>
+const $=id=>document.getElementById(id), money=v=>v==null?'—':'¥'+Number(v).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const date=t=>new Date(t).toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false});
+const STEP=3*3600000, ANCHOR=Date.parse('2026-01-01T02:00:00+08:00');
+const DATA_URL=document.querySelector('meta[name="price-data-url"]').content;
+const dayKey=t=>new Date(t).toLocaleDateString('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'});
+const slot=t=>Math.floor((new Date(t)-ANCHOR)/STEP)*STEP+ANCHOR;
+let data=null,dayMode='min';
+function node(name,attrs,text){const n=document.createElementNS('http://www.w3.org/2000/svg',name);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,v);if(text!==undefined)n.textContent=text;return n}
+function render(){
+ const all=data.records, valid=all.filter(r=>r.status==='success'&&r.basis==='hkd_summary_fx_reference'), last=valid.at(-1), latest=all.at(-1);
+ if(last){for(const k of ['total','outbound','inbound'])$(k).textContent=money(last[k]);$('native').textContent='HKD '+last.native.total+' · '+date(last.at);let delta=Number(last.total)-1530;$('difference').textContent=delta>0?'距提醒线还差 '+money(delta):'已达到提醒条件';$('fx').textContent=`参考汇率：${last.fx.source} · ${last.fx.date} · 1 HKD ≈ ${Number(last.fx.rate).toFixed(6)} CNY。人民币金额不代表保证扣款金额。`;}
+ const age=last?Date.now()-Date.parse(last.at):Infinity;
+ $('status').textContent=data.human_required?'监控已暂停，需要人工处理安全验证。':latest?.status==='failed'?'最近检查失败；下方保留最近有效报价，不代表当前价格。':age>STEP+30*60000?'数据尚未更新：最近有效报价为 '+(last?date(last.at):'暂无')+'。缺失时段不会补造价格。':last?.source?.type==='wxpusher_screenshot'?'最近报价来自微信截图 · '+date(last.at)+' · 时间为消息发送时间':'最近检查成功 · '+date(latest.at)+' · 网页自动刷新中';
+ const range=$('range').value, cutoff=range==='all'?-Infinity:Date.now()-Number(range)*3600000;
+ const shown=all.filter(r=>Date.parse(r.at)>=cutoff);
+ $('count').textContent=shown.length+' 条真实记录';$('rows').replaceChildren();
+ for(const r of shown.slice(-200).reverse()){let tr=document.createElement('tr'), ok=r.status==='success'&&r.basis==='hkd_summary_fx_reference';for(const v of [date(r.at),ok?money(r.outbound):'—',ok?money(r.inbound):'—',ok?money(r.total):'—',ok?'HKD '+r.native.total:'—',ok?(Number(r.total)<=1530?'达到提醒线':'高于提醒线'):(r.status==='failed'?'检查失败':'历史口径，不绘图'),r.source?.type==='wxpusher_screenshot'?'微信截图'+(r.source.file?' · '+r.source.file:''):'监控程序']){let td=document.createElement('td');td.textContent=v;tr.append(td)}$('rows').append(tr)}
+ if(!shown.length){let tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=7;td.className='empty';td.textContent='此时间范围暂无检查记录';tr.append(td);$('rows').append(tr)}
+ renderDaily(valid);
+ draw(shown,cutoff);
+}
+function renderDaily(records){
+ const days=new Map();for(const r of records){const key=dayKey(r.at);if(!days.has(key))days.set(key,[]);days.get(key).push(r)}
+ const summaries=[...days].sort(([a],[b])=>a.localeCompare(b)).map(([key,rows])=>({key,rows,min:rows.reduce((a,b)=>Number(a.total)<Number(b.total)?a:b),last:rows.at(-1)}));
+ const today=dayKey(Date.now()),start=$('daily-range').value==='all'?(summaries[0]?.key||today):dayKey(Date.now()-6*86400000);
+ const first=Date.parse(start+'T00:00:00+08:00'),last=Date.parse(today+'T00:00:00+08:00');
+ const known=new Map(summaries.map(day=>[day.key,day])),slots=[];
+ for(let time=first;time<=last;time+=86400000){const key=dayKey(time);slots.push({key,day:known.get(key)||null})}
+ const selected=slots.filter(slot=>slot.day).map(slot=>slot.day).reverse();$('daily-rows').replaceChildren();
+ for(const day of selected){const index=summaries.findIndex(row=>row.key===day.key),previous=index>0?summaries[index-1].last:null;const delta=previous?Number(day.last.total)-Number(previous.total):null;
+  const tr=document.createElement('tr');for(const value of [day.key,money(day.min.total),money(day.last.total),delta===null?'—':(delta>0?'+':'')+money(delta),`${day.rows.length} 条`,'HKD '+day.last.native.total]){const td=document.createElement('td');td.textContent=value;tr.append(td)}tr.children[1].className='daily-min';tr.children[3].className='daily-change '+(delta<0?'down':delta>0?'up':'');$('daily-rows').append(tr)}
+ if(!selected.length){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=6;td.className='empty';td.textContent='暂无每日价格';tr.append(td);$('daily-rows').append(tr)}
+ drawDaily(slots);
+}
+function drawDaily(slots){
+ const svg=$('daily-chart');svg.replaceChildren();const H=270,L=62,R=28,T=22,B=53;
+ const width=Math.max(680,slots.length*78+L+R);svg.style.minWidth=width+'px';svg.setAttribute('viewBox',`0 0 ${width} ${H}`);
+ const prices=slots.filter(slot=>slot.day).map(slot=>Number(slot.day[dayMode].total));
+ if(!prices.length){svg.append(node('text',{x:width/2,y:H/2,'text-anchor':'middle'},'暂无每日报价'));return}
+ const lo=Math.max(0,Math.floor((Math.min(...prices,1530)-70)/100)*100),hi=Math.max(lo+200,Math.ceil((Math.max(...prices,1530)+70)/100)*100);
+ const x=i=>L+(slots.length===1?(width-L-R)/2:i*(width-L-R)/(slots.length-1)),y=v=>T+(hi-v)*(H-T-B)/(hi-lo);
+ for(let i=0;i<=4;i++){let value=lo+(hi-lo)*i/4;svg.append(node('line',{x1:L,x2:width-R,y1:y(value),y2:y(value),stroke:'#eeedf3'}),node('text',{x:L-9,y:y(value)+4,'text-anchor':'end'},'¥'+Math.round(value)))}
+ svg.append(node('line',{x1:L,x2:width-R,y1:y(1530),y2:y(1530),stroke:'#cf9365','stroke-dasharray':'6 5'}),node('text',{x:width-R,y:y(1530)-7,'text-anchor':'end'},'¥1,530'));
+ let previous=null;for(let i=0;i<slots.length;i++){const {key,day}=slots[i],cx=x(i),label=key.slice(5).replace('-','/');
+  svg.append(node('text',{x:cx,y:H-22,'text-anchor':'middle'},label));
+  if(!day){previous=null;continue}
+  const point=day[dayMode],cy=y(Number(point.total));
+  if(previous)svg.append(node('line',{x1:previous.x,y1:previous.y,x2:cx,y2:cy,stroke:'#7544d4','stroke-width':2.5}));
+  const dot=node('circle',{cx,cy,r:5,fill:'#7544d4',stroke:'#fff','stroke-width':2,tabindex:0,role:'img','aria-label':`${label} ${dayMode==='min'?'最低':'最后'} ${money(point.total)}`});
+  const detail=`${key} · ${dayMode==='min'?'最低':'最后'} ${money(point.total)} · ${day.rows.length} 条记录`;dot.append(node('title',{},detail));for(const event of ['mouseenter','focus','click'])dot.addEventListener(event,()=>{$('daily-tip').textContent=detail});svg.append(dot);previous={x:cx,y:cy};
+ }
+}
+function draw(records,cutoff){
+ const svg=$('chart');svg.replaceChildren();let points=new Map();for(const r of records)points.set(slot(r.at),r);
+ let start=Number.isFinite(cutoff)?slot(cutoff):points.size?Math.min(...points.keys()):slot(Date.now())-7*STEP;
+ let end=Math.max(slot(Date.now()),points.size?Math.max(...points.keys()):start,start+STEP);
+ let n=Math.round((end-start)/STEP)+1,W=Math.max(760,n*27+90),H=320,L=65,R=25,T=25,B=65;
+ svg.style.minWidth=W+'px';svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+ let field=$('series').value,vals=[...points.values()].filter(r=>r.status==='success'&&r.basis==='hkd_summary_fx_reference').map(r=>Number(r[field]));if(field==='total')vals.push(1530);
+ let lo=vals.length?Math.floor((Math.min(...vals)-80)/100)*100:0,hi=vals.length?Math.ceil((Math.max(...vals)+80)/100)*100:2000;lo=Math.max(0,lo);hi=Math.max(hi,lo+200);
+ let x=t=>L+(t-start)/(end-start)*(W-L-R), y=v=>T+(hi-v)/(hi-lo)*(H-T-B);
+ for(let i=0;i<=4;i++){let v=lo+(hi-lo)*i/4;svg.append(node('line',{x1:L,x2:W-R,y1:y(v),y2:y(v),stroke:'#eeedf3'}),node('text',{x:L-10,y:y(v)+4,'text-anchor':'end'},'¥'+Math.round(v)))}
+ for(let t=start,i=0;t<=end;t+=STEP,i++){if(i%2===0){let label=new Date(t).toLocaleTimeString('zh-CN',{timeZone:'Asia/Shanghai',hour:'2-digit',minute:'2-digit',hour12:false});svg.append(node('text',{x:x(t),y:H-34,'text-anchor':'middle'},label));}}
+ // Day boundaries are midnight Beijing time, independent of the 02/05/08 schedule.
+ const DAY=86400000,offset=8*3600000,firstDay=Math.floor((start+offset)/DAY)*DAY-offset;
+ for(let day=firstDay;day<=end;day+=DAY){let position=Math.max(day,start);let label=new Date(day).toLocaleDateString('zh-CN',{timeZone:'Asia/Shanghai',month:'long',day:'numeric'});svg.append(node('line',{x1:x(position),x2:x(position),y1:T,y2:H-B,stroke:'#d5cede','stroke-dasharray':'3 4','data-day':label}),node('text',{x:x(position)+5,y:H-10,'font-weight':700,'data-day-label':label},label));}
+ if(field==='total'){svg.append(node('line',{x1:L,x2:W-R,y1:y(1530),y2:y(1530),stroke:'#cf9365','stroke-dasharray':'6 5'}),node('text',{x:W-R,y:y(1530)-8,'text-anchor':'end'},'提醒线 ¥1,530'));}
+ let prev=null;for(let t=start;t<=end;t+=STEP){let r=points.get(t);if(!r||r.status!=='success'||r.basis!=='hkd_summary_fx_reference'){prev=null;continue}let cy=y(Number(r[field]));if(prev)svg.append(node('line',{x1:prev.x,y1:prev.y,x2:x(t),y2:cy,stroke:'#7544d4','stroke-width':2.5}));let dot=node('circle',{cx:x(t),cy,r:5,fill:'#7544d4',stroke:'white','stroke-width':2,tabindex:0,role:'img','aria-label':date(r.at)+' '+money(r[field])});let detail=date(r.at)+' · '+money(r[field])+' · HKD '+r.native[field];dot.append(node('title',{},detail));for(const event of ['mouseenter','focus','click'])dot.addEventListener(event,()=>{$('tip').textContent=detail});svg.append(dot);prev={x:x(t),y:cy};}
+ if(!points.size)svg.append(node('text',{x:W/2,y:H/2,'text-anchor':'middle'},'暂无真实报价，等待下一次检查'));
+}
+async function refresh(){try{let response=await fetch(DATA_URL,{cache:'no-store'});if(!response.ok)throw Error();data=await response.json();render()}catch{$('status').textContent='无法读取价格数据；已显示的报价不会冒充实时价格。'}}
+$('refresh').onclick=refresh;$('range').onchange=$('series').onchange=$('daily-range').onchange=()=>{if(data)render()};
+for(const button of document.querySelectorAll('[data-day-mode]'))button.onclick=()=>{dayMode=button.dataset.dayMode;for(const item of document.querySelectorAll('[data-day-mode]'))item.setAttribute('aria-pressed',String(item===button));if(data)render()};
+if(DATA_URL!=='/api/prices')$('refresh-note').textContent='公网价格数据随每次成功发布更新；机票检查仍由本机每 3 小时执行一次。电脑需要保持开机联网。';
+refresh();setInterval(refresh,DATA_URL==='/api/prices'?5000:60000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});
+</script>
+</body></html>
